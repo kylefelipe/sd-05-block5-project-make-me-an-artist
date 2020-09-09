@@ -3,11 +3,12 @@ const paleta = document.getElementById('color-palette');
 const pixelPaleta = document.getElementsByClassName('color');
 const pixelBoard = document.getElementById('pixel-board');
 const cleanButton = document.getElementById('clear-board');
-const nPixLine = 5;
+const vqvButton = document.getElementById('generate-board');
+const nPixLine = document.getElementById('board-size');
 const colors = ['black', 'blue', 'green', 'yellow'];
 
 function selectNewColor(event) {
-  const selectedColor = document.getElementsByClassName('selected')[0];
+  const selectedColor = document.querySelector('.selected');
   selectedColor.classList.remove('selected');
   event.target.classList.add('selected');
 }
@@ -49,18 +50,24 @@ function populateBoard(pixels, elemento) {
   }
 }
 
+function createBoard (nPixLine) {
+  pixelBoard.innerHTML = null;
+  const pixels = genPixels(nPixLine * nPixLine);
+  populateBoard(pixels, pixelBoard);
+  pixelBoard.style.width = `${nPixLine * 42}px`;
+}
+
 // Eventos
 window.addEventListener('load', function () {
-  const pixels = genPixels(nPixLine * nPixLine);
-  const elemento = document.querySelector('#pixel-board');
-  populateBoard(pixels, elemento);
-  elemento.style.width = `${nPixLine * 42}px`;
+  createBoard(5);
 });
-
+vqvButton.onclick= createBoard(nPixLine.value);
 window.addEventListener('load', setPaleteColors(colors));
 cleanButton.onclick = clearBoard;
-paleta.addEventListener('click', selectNewColor);
+paleta.addEventListener('click', function (event) {
+   if (event.target.classList.contains('color')) {
+     selectNewColor}});
 pixelBoard.addEventListener('click', function (event) {
-  const selectedColor = document.getElementsByClassName('selected')[0];
+  const selectedColor = document.querySelector('.selected');
   event.target.style.backgroundColor = selectedColor.style.backgroundColor;
 });
